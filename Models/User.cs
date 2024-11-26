@@ -62,6 +62,7 @@ namespace Datamodels.Models
 
         [ForeignKey("StatusId")]
         [InverseProperty("Users")]
+       
         public virtual GeneralStatus Status { get; set; }
     }
 }
