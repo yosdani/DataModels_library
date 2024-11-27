@@ -27,7 +27,7 @@ namespace Datamodels.Models
             modelBuilder.Entity<Role>(entity =>
             {
                 entity.HasKey(e => e.Id);
-                entity.ToTable("role", "prueba", tb => tb.HasComment("Tabela que contém os perfis de utilizador."));
+                entity.ToTable("Role", "Prueba.dbo", tb => tb.HasComment("Tabela que contém os perfis de utilizador."));
                 entity.Property(e => e.Id).ValueGeneratedNever();
                 entity.Property(e => e.CreatedDate).HasDefaultValueSql("now()");
                 entity.Property(e => e.UpdatedDate).HasDefaultValueSql("now()");
@@ -43,7 +43,7 @@ namespace Datamodels.Models
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasKey(e => e.Id).HasName("user_pkey");
-                entity.ToTable("user", "Prueba", tb => tb.HasComment("Tabela que contém os dados dos utilizadores registados."));
+                entity.ToTable("User", "Prueba.dbo", tb => tb.HasComment("contiene los usuarios registrados."));
                 object value = entity.Property(e => e.CreatedDate).HasDefaultValueSql("now()");
                 entity.Property(e => e.UpdatedDate).HasDefaultValueSql("now()");
                 entity.HasOne(d => d.Role).WithMany(p => p.Users).OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("fk_user_role_id");

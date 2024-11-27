@@ -19,6 +19,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
     <PackageReference Include="Z.EntityFramework.Extensions.EFCore" Version="8.103.6.2" />
   </ItemGroup>
 
@@ -26,6 +27,10 @@
     <Reference Include="CommonTypes">
       <HintPath>..\CommonTypes\bin\Debug\net8.0\CommonTypes.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
 
 </Project>

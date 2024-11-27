@@ -10,9 +10,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Datamodels.Models
 {
-    [Table("role", Schema = "seamind_data")]
-    [Index("NameEn", Name = "role_name_en_key", IsUnique = true)]
-    [Index("NameEs", Name = "role_name_es_key", IsUnique = true)]
+    [Table("role", Schema = "Prueba.dbo")]
+    
     public partial class Role
     {
         [Key]

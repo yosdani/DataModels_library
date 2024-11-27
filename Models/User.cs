@@ -13,7 +13,7 @@ namespace Datamodels.Models
     /// <summary>
     /// Tabela que contém os dados dos utilizadores registados.
     /// </summary>
-    [Table("user", Schema = "Prueba")]
+    [Table("Prueba.dbo.user", Schema = "Prueba.dbo")]
     [Index("Email", Name = "user_email_key", IsUnique = true)]
     public partial class User
     {
