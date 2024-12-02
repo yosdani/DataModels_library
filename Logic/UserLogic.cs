@@ -40,7 +40,7 @@ namespace Datamodels.Logic
             Name = request.Name,
             Lastname = request.Lastname,
             StatusId = statusId,
-            RoleId = context.Users.Any() ? userRoles.Public : userRoles.Admin
+            RoleId = userRoles.Admin
         }, request.Password, masterUser, out message);
 
         public User CreateUser(User_Create request, string password, MasterUser masterUser, out LanguageObject message)
@@ -59,7 +59,9 @@ namespace Datamodels.Logic
                     Password = Encryption.Encrypt_1(password),
                     Surname = request.Lastname,
                     StatusId = request.StatusId,
-                    RoleId = request.RoleId
+                    RoleId = request.RoleId,
+                    CreatedDate = DateTime.Now,
+                    UpdatedDate = DateTime.Now
                 };
                 context.Users.Add(user);
                 context.SaveChanges();
@@ -198,7 +200,7 @@ namespace Datamodels.Logic
                     name = u.Name,
                     lastName = u.Surname,
                     email = u.Email,
-                    
+
                     status = new
                     {
                         id = u.StatusId,
