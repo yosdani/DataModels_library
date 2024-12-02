@@ -14,7 +14,6 @@ namespace Datamodels.Models
     /// Tabela que contém os dados dos utilizadores registados.
     /// </summary>
     [Table("Prueba.dbo.user", Schema = "Prueba.dbo")]
-    [Index("Email", Name = "user_email_key", IsUnique = true)]
     public partial class User
     {
         [Key]
@@ -41,19 +40,19 @@ namespace Datamodels.Models
         public string Password { get; set; }
 
 
-        [Column("created_date", TypeName = "timestamp without time zone")]
+        [Column("created_date", TypeName = "datetime without time zone")]
         public DateTime CreatedDate { get; set; }
 
-        [Column("updated_date", TypeName = "timestamp without time zone")]
+        [Column("updated_date", TypeName = "datetime without time zone")]
         public DateTime UpdatedDate { get; set; }
 
-        [Column("status_id")]
+        [Column("statusId")]
         public int StatusId { get; set; }
 
         [Column("token", TypeName = "character varying")]
         public string Token { get; set; }
 
-        [Column("role_id")]
+        [Column("roleId")]
         public int RoleId { get; set; }
 
         [ForeignKey("RoleId")]
