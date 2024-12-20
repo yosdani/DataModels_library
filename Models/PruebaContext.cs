@@ -16,6 +16,7 @@ namespace Datamodels.Models
         public virtual DbSet<Role> Roles { get; set; }
 
         public virtual DbSet<GeneralStatus> GeneralStatuses { get; set; }
+        public virtual DbSet<Student> Students { get; set; }
 
 
         public virtual DbSet<User> Users { get; set; }
@@ -64,6 +65,29 @@ namespace Datamodels.Models
             modelBuilder.Entity<GeneralStatus>()
            .Navigation(b => b.Users)
            .UsePropertyAccessMode(PropertyAccessMode.Property);
+            modelBuilder.Entity<Student>(b =>
+            {
+
+
+
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
+
+
+
+                b.Property<string>("Sex")
+                   .HasColumnType("nvarchar(max)");
+
+                b.Property<int>("Age")
+                      .HasColumnType("int");
+                b.Property<string>("Specialty")
+                    .HasColumnType("nvarchar(max)");
+                b.Property<int>("Year")
+                      .HasColumnType("int");
+
+                b.ToTable("Student");
+            });
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

@@ -17,7 +17,7 @@ namespace Datamodels.Logic
 {
     public class UserLogic : BaseLogic
     {
-        private static readonly LanguageObject message_exists = new LanguageObject("The user already exists", "O utilizador já existe");
+        private static readonly LanguageObject message_exists = new LanguageObject("The user already exists", "El usuario ya existe");
 
         public UserLogic(Context context) : base(context) { }
 
