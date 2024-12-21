@@ -9,24 +9,23 @@ using System.Threading.Tasks;
 
 namespace Datamodels.Models
 {
-    [Table("general_status", Schema = "prueba")]
-    [Index("NameEn", Name = "uk_general_status_name_en", IsUnique = true)]
-    [Index("NameEs", Name = "uk_general_status_name_es", IsUnique = true)]
+    [Table("Prueba.dbo.general_status", Schema = "Prueba.dbo")]
+  
     public partial class GeneralStatus
     {
         [Key]
         [Column("id")]
         public int Id { get; set; }
 
-        [Required]
+        
         [Column("name_en")]
         [StringLength(15)]
-        public string NameEn { get; set; }
+        public string? NameEn { get; set; }
 
-        [Required]
+        
         [Column("name_es")]
         [StringLength(15)]
-        public string NameEs { get; set; }
+        public string? NameEs { get; set; }
 
         [Column("created_date")]
         public TimeOnly CreatedDate { get; set; }

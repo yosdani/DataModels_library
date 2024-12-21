@@ -99,9 +99,6 @@ namespace Datamodels.Logic
         public IEnumerable<object> GetStudents() => context.Students.OrderBy(c => c.Id).Select(c => new
         {
             Name = c.Name,
-            Age = c.Age,
-            Sex= c.Sex,
-            Specialty = c.Specialty,
             Year = c.Year,
             
         }).ToList();

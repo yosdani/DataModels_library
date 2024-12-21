@@ -1,4 +1,5 @@
-﻿using CommonTypes.Settings.Keys;
+﻿using CommonTypes.Request.General;
+using CommonTypes.Settings.Keys;
 using CommonTypes.Util;
 using Datamodels.Extentions;
 using Datamodels.Models;
@@ -21,18 +22,28 @@ namespace Datamodels.Logic
 
         public UserLogic(Context context) : base(context) { }
 
-        public User Authenticate(User_Authenticate aut, MasterUser masterUser, out LanguageObject message, IEnumerable<int> generalStatus = null)
+        public User Authenticate(User_Authenticate aut, out LanguageObject message, IEnumerable<int> generalStatus=null )
         {
             if (aut.IsValid(out message))
             {
                 string password = Encryption.Encrypt_1(aut.Password);
                 bool filterByStatus = generalStatus != null;
-                return context.Users.Include(u => u.Role).FirstOrDefault(GetAuthFilter(aut.Email, password, masterUser, generalStatus));
+                var a = context.Users.Include(c=>c.Role).Include(c=>c.Status).FirstOrDefault(GetAuthFilter(aut.Email, password, generalStatus)); ;
+                User resu = new User
+                {
+                    Name = a.Name,
+                    Email=a.Email,
+                    Status=a.Status,
+                    Password=a.Password
+                };
+                return resu;
+                
+               
             }
             return null;
         }
 
-        private Expression<Func<User, bool>> GetAuthFilter(string email, string password, MasterUser masterUser, IEnumerable<int> generalStatus = null) => GetFilter(email, masterUser, generalStatus)._AndAlso(u => password == u.Password);
+        private Expression<Func<User, bool>> GetAuthFilter(string email, string password, IEnumerable<int> generalStatus = null) => GetFilter(email, generalStatus)._AndAlso(u => password == u.Password);
 
         public User Register(User_Register request, MasterUser masterUser, int statusId, UserRoles userRoles, out LanguageObject message) => CreateUser(new User_Create()
         {
@@ -47,7 +58,7 @@ namespace Datamodels.Logic
         {
             if (request.IsValid(out message))
             {
-                if (ExistsUser(request.Email, masterUser))
+                if (ExistsUser(request.Email))
                 {
                     message = message_exists;
                     return null;
@@ -61,7 +72,7 @@ namespace Datamodels.Logic
                     StatusId = request.StatusId,
                     RoleId = request.RoleId,
                     CreatedDate = DateTime.Now,
-                    UpdatedDate = DateTime.Now
+                   
                 };
                 context.Users.Add(user);
                 context.SaveChanges();
@@ -72,7 +83,7 @@ namespace Datamodels.Logic
 
         public User ChangeStatus(string email, MasterUser masterUser, int newStatus, out LanguageObject message, IEnumerable<int> generalStatus = null)
         {
-            User user = GetUser(email, masterUser, generalStatus);
+            User user = GetUser(email, generalStatus);
             if (user != null)
             {
                 message = null;
@@ -84,12 +95,12 @@ namespace Datamodels.Logic
             return null;
         }
 
-        public bool ChangeStatus(IEnumerable<string> emails, MasterUser masterUser, int newStatus, out LanguageObject message, IEnumerable<int> generalStatus = null)
+        public bool ChangeStatus(IEnumerable<string> emails, int newStatus, out LanguageObject message, IEnumerable<int> generalStatus = null)
         {
             User user;
             foreach (string email in emails)
             {
-                user = GetUser(email, masterUser, generalStatus);
+                user = GetUser(email, generalStatus);
                 if (user != null)
                     ChangeStatus(user, newStatus);
                 else
@@ -111,7 +122,7 @@ namespace Datamodels.Logic
 
         public User SetToken(string email, string token, MasterUser masterUser, IEnumerable<int> generalStatus = null)
         {
-            User user = GetUser(email, masterUser, generalStatus);
+            User user = GetUser(email, generalStatus);
             if (user != null)
             {
                 user.Token = token;
@@ -123,7 +134,7 @@ namespace Datamodels.Logic
 
         public User ChangePassword(string email, string password, MasterUser masterUser, IEnumerable<int> generalStatus = null)
         {
-            User user = GetUser(email, masterUser, generalStatus);
+            User user = GetUser(email, generalStatus);
             if (user != null)
             {
                 user.Password = Encryption.Encrypt_1(password);
@@ -138,7 +149,7 @@ namespace Datamodels.Logic
         {
             if (request.IsValid(out message))
             {
-                User user = GetUser(request.Email, masterUser, generalStatus);
+                User user = GetUser(request.Email, generalStatus);
                 if (user != null)
                 {
                     user.Name = request.Name;
@@ -155,7 +166,7 @@ namespace Datamodels.Logic
         {
             if (request.IsValid(out message))
             {
-                User user = GetUser(request.Email, masterUser, generalStatus);
+                User user = GetUser(request.Email, generalStatus);
                 if (user != null)
                 {
                     user.Name = request.Name;
@@ -170,7 +181,7 @@ namespace Datamodels.Logic
             return false;
         }
 
-        public IEnumerable<object> GetUsers(User_Get request, MasterUser masterUser) => context.Users.Where(GetFilter(request, masterUser)).OrderByDescending(u => u.Id).Select(u => new
+        public IEnumerable<object> GetUsers(User_Get request, MasterUser masterUser) => context.Users.Where(GetFilter(request)).OrderByDescending(u => u.Id).Select(u => new
         {
             name = u.Name,
             lastName = u.Surname,
@@ -189,7 +200,7 @@ namespace Datamodels.Logic
         }).ToList();
 
 
-        private Expression<Func<User, bool>> GetFilter(User_Get request, MasterUser masterUser) => GetFilter(request.StatusIds, request.RolesIds)._AndAlso(u => u.Id != masterUser.Id);
+        private Expression<Func<User, bool>> GetFilter(User_Get request) => GetFilter(request.StatusIds, request.RolesIds);
         public object GetUserData(string email)
         {
             if (EmailSupport.ValidateEmail(email))

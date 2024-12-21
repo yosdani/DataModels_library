@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Datamodels.Models
 {
-    [Table("role", Schema = "Prueba.dbo")]
+    [Table("Prueba.dbo.role", Schema = "Prueba.dbo")]
     
     public partial class Role
     {
@@ -18,29 +18,27 @@ namespace Datamodels.Models
         [Column("id")]
         public int Id { get; set; }
 
-        [Required]
+        
         [Column("name_es")]
         [StringLength(100)]
-        public string NameEs { get; set; }
+        public string? NameEs { get; set; }
 
-        [Required]
+       
         [Column("name_en")]
         [StringLength(100)]
-        public string NameEn { get; set; }
+        public string? NameEn { get; set; }
 
         [Column("description_es")]
         [StringLength(100)]
-        public string DescriptionEs { get; set; }
+        public string? DescriptionEs { get; set; }
 
         [Column("description_en")]
         [StringLength(100)]
-        public string DescriptionEn { get; set; }
+        public string? DescriptionEn { get; set; }
 
         [Column("created_date", TypeName = "timestamp without time zone")]
         public DateTime CreatedDate { get; set; }
 
-        [Column("updated_date", TypeName = "timestamp without time zone")]
-        public DateTime UpdatedDate { get; set; }
 
 
         [InverseProperty("Role")]

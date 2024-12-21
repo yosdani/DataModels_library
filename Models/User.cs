@@ -20,22 +20,22 @@ namespace Datamodels.Models
         [Column("id")]
         public int Id { get; set; }
 
-        [Required]
+        
         [Column("name")]
         [StringLength(64)]
         public string Name { get; set; }
 
-        [Required]
+       
         [Column("surname")]
         [StringLength(64)]
         public string Surname { get; set; }
 
-        [Required]
+        
         [Column("email")]
         [StringLength(255)]
         public string Email { get; set; }
 
-        [Required]
+        
         [Column("password", TypeName = "character varying")]
         public string Password { get; set; }
 
@@ -43,8 +43,7 @@ namespace Datamodels.Models
         [Column("created_date", TypeName = "datetime without time zone")]
         public DateTime CreatedDate { get; set; }
 
-        [Column("updated_date", TypeName = "datetime without time zone")]
-        public DateTime UpdatedDate { get; set; }
+      
 
         [Column("statusId")]
         public int StatusId { get; set; }
@@ -62,6 +61,6 @@ namespace Datamodels.Models
         [ForeignKey("StatusId")]
         [InverseProperty("Users")]
        
-        public virtual GeneralStatus Status { get; set; }
+        public virtual GeneralStatus? Status { get; set; }
     }
 }

@@ -25,14 +25,19 @@ namespace Datamodels.Models
         {
             modelBuilder.Entity<User>(b =>
             {
-              
-              
+
+                b.Property<string>("Password")
+                 .HasColumnType("nvarchar(max)");
 
                 b.Property<string>("Email")
-                    .IsRequired()
+                    
                     .HasColumnType("nvarchar(max)");
 
-               
+                b.Property<string>("Name")
+                
+                   .HasColumnType("nvarchar(max)");
+                b.Property<string>("Surname")
+                  .HasColumnType("nvarchar(max)");
 
                 b.Property<string>("Token")
                    .HasColumnType("nvarchar(max)");
@@ -65,13 +70,38 @@ namespace Datamodels.Models
             modelBuilder.Entity<GeneralStatus>()
            .Navigation(b => b.Users)
            .UsePropertyAccessMode(PropertyAccessMode.Property);
+
+
+            modelBuilder.Entity<Role>(b =>
+            {
+
+
+
+                b.Property<string>("Name_es")
+                    
+                    .HasColumnType("nvarchar(max)");
+
+
+
+                b.Property<string>("Name_en")
+                   .HasColumnType("nvarchar(max)");
+                b.Property<string>("Name_en")
+                  .HasColumnType("nvarchar(max)");
+                b.Property<string>("Description_en")
+                  .HasColumnType("nvarchar(max)");
+                b.Property<string>("Description_es")
+                  .HasColumnType("nvarchar(max)");
+
+
+                b.ToTable("Role");
+            });
             modelBuilder.Entity<Student>(b =>
             {
 
 
 
                 b.Property<string>("Name")
-                    .IsRequired()
+                   
                     .HasColumnType("nvarchar(max)");
 
 
@@ -87,6 +117,25 @@ namespace Datamodels.Models
                       .HasColumnType("int");
 
                 b.ToTable("Student");
+            });
+
+
+            modelBuilder.Entity<GeneralStatus>(b =>
+            {
+
+
+
+                b.Property<string>("Name_en")
+                   
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<string>("Name_es")
+                   
+                   .HasColumnType("nvarchar(max)");
+
+              
+
+                b.ToTable("GeneralStatus");
             });
         }
 
